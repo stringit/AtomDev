@@ -22,10 +22,29 @@ from pylizlib.core.os.snap import QueryType, SearchTarget
 
 
 class CatalogueSearcherView(QDialog):
+    """
+    A dialog window for searching within the snapshot catalogue.
+
+    This view provides UI elements for initiating a search, filtering by various
+    parameters (target, query type, extensions), and viewing the results in both
+    a summary table and a detailed tree view.
+
+    Signals:
+        signal_delete_requested(int): Emitted when a user requests to remove a
+                                      snapshot from the search list (row index).
+        signal_file_double_clicked(str): Emitted when a user double-clicks a file
+                                         in the results tree (file path).
+    """
     signal_delete_requested = Signal(int)
     signal_file_double_clicked = Signal(str)
 
     def __init__(self, parent=None):
+        """
+        Initializes the CatalogueSearcherView.
+
+        Args:
+            parent (QWidget, optional): The parent widget. Defaults to None.
+        """
         super().__init__(parent)
 
         # Basic dialog settings
@@ -145,12 +164,25 @@ class CatalogueSearcherView(QDialog):
         self._update_search_bar_placeholder()
 
     def _on_tree_view_double_clicked(self, index: QModelIndex):
+        """
+        Handles the double-click event on the results tree view.
+        Emits signal_file_double_clicked if a file item is double-clicked.
+
+        Args:
+            index (QModelIndex): The model index of the clicked item.
+        """
         item = self.tree_view.model().itemFromIndex(index)
         if item and item.parent():  # It's a child item (file path)
             file_path = item.text()
             self.signal_file_double_clicked.emit(file_path)
 
     def _show_context_menu(self, pos):
+        """
+        Shows a context menu for items in the results table.
+
+        Args:
+            pos (QPoint): The position where the context menu was requested.
+        """
         index = self.results_table.indexAt(pos)
         if not index.isValid():
             return
@@ -162,6 +194,12 @@ class CatalogueSearcherView(QDialog):
         menu.exec(self.results_table.viewport().mapToGlobal(pos))
 
     def __create_extensions_menu(self):
+        """
+        Creates the checkable menu for file extension filtering.
+
+        Returns:
+            CheckableMenu: The configured menu for the extensions button.
+        """
         menu = CheckableMenu(parent=self)
 
         # Create an action group and allow non-exclusive selection
@@ -192,6 +230,12 @@ class CatalogueSearcherView(QDialog):
         return menu
 
     def __create_target_menu(self):
+        """
+        Creates the checkable menu for selecting the search target.
+
+        Returns:
+            CheckableMenu: The configured menu for the target button.
+        """
         menu = CheckableMenu(parent=self)
         action_group = QActionGroup(self)
         action_group.setExclusive(True)
@@ -214,6 +258,12 @@ class CatalogueSearcherView(QDialog):
         return menu
 
     def __create_query_type_menu(self):
+        """
+        Creates the checkable menu for selecting the query type.
+
+        Returns:
+            CheckableMenu: The configured menu for the query type button.
+        """
         menu = CheckableMenu(parent=self)
         action_group = QActionGroup(self)
         action_group.setExclusive(True)
@@ -232,6 +282,7 @@ class CatalogueSearcherView(QDialog):
         return menu
 
     def _update_search_bar_placeholder(self):
+        """Updates the search bar's placeholder text based on the selected search options."""
         target = self.get_selected_search_target()
         query_type = self.get_selected_query_type()
 
@@ -245,6 +296,12 @@ class CatalogueSearcherView(QDialog):
             self.search_bar.setPlaceholderText("Cerca il nome di un file usando una regex")
 
     def get_selected_extensions(self) -> list[str]:
+        """
+        Retrieves the list of currently selected file extensions.
+
+        Returns:
+            list[str]: A list of selected extension strings (e.g., ['.txt', '.log']).
+        """
         extensions = []
         if self.action_ext_txt.isChecked():
             extensions.append(".txt")
@@ -259,12 +316,24 @@ class CatalogueSearcherView(QDialog):
         return extensions
 
     def get_selected_query_type(self) -> QueryType:
+        """
+        Retrieves the currently selected query type.
+
+        Returns:
+            QueryType: The selected QueryType enum member.
+        """
         for query_type, action in self.action_query_type_map.items():
             if action.isChecked():
                 return query_type
         return QueryType.TEXT  # Default fallback
 
     def get_selected_search_target(self) -> SearchTarget:
+        """
+        Retrieves the currently selected search target.
+
+        Returns:
+            SearchTarget: The selected SearchTarget enum member.
+        """
         for target, action in self.action_target_map.items():
             if action.isChecked():
                 return target
@@ -292,10 +361,17 @@ class CatalogueSearcherView(QDialog):
         self.status_card_eta_label.setText(f"ETA: {eta}")
 
     def setModel(self, model: QAbstractItemModel):
+        """
+        Sets the model for the results table.
+
+        Args:
+            model (QAbstractItemModel): The table model to set.
+        """
         self.results_table.setModel(model)
         self._distribuisci_colonne_perc()
 
     def _distribuisci_colonne_perc(self):
+        """Distributes column widths in the results table based on percentages."""
         total_width = self.results_table.viewport().width()
         if total_width == 0:
             return
@@ -304,5 +380,6 @@ class CatalogueSearcherView(QDialog):
             self.results_table.setColumnWidth(idx, width)
 
     def _table_resize_event(self, event):
+        """Handles the resize event for the results table to redistribute columns."""
         self._distribuisci_colonne_perc()
         super(type(self.results_table), self.results_table).resizeEvent(event)
