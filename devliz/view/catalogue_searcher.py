@@ -6,7 +6,6 @@ from qfluentwidgets import (
     TableView,
     TreeView,
     FluentStyleSheet,
-    SubtitleLabel,
     CommandBar,
     Action,
     FluentIcon,
@@ -19,6 +18,7 @@ from qfluentwidgets import (
     ComboBox,
     RoundMenu
 )
+from pylizlib.core.os.snap import QueryType, SearchTarget
 
 
 class CatalogueSearcherView(QDialog):
@@ -50,21 +50,22 @@ class CatalogueSearcherView(QDialog):
         self.command_bar = CommandBar(self)
         self.action_start = Action(FluentIcon.SEARCH, "Start", self)
         self.action_stop = Action(FluentIcon.POWER_BUTTON, "Stop", self, enabled=False)
+
+        self.target_button = TransparentDropDownPushButton("Target", self, FluentIcon.TILES)
+        self.target_button.setMenu(self.__create_target_menu())
+
+        self.query_type_button = TransparentDropDownPushButton("Tipo", self, FluentIcon.FONT)
+        self.query_type_button.setMenu(self.__create_query_type_menu())
+
         self.extensions_button = TransparentDropDownPushButton("Estensioni", self, FluentIcon.FILTER)
         self.extensions_button.setMenu(self.__create_extensions_menu())
-
-        self.search_type_button = TransparentDropDownPushButton("Tipo", self, FluentIcon.FONT)
-        self.search_type_button.setMenu(self.__create_search_type_menu())
-
-        self.action_regex_builder = Action(FluentIcon.CODE, "Regex Builder", self)
 
         self.command_bar.addAction(self.action_start)
         self.command_bar.addAction(self.action_stop)
         self.command_bar.addSeparator()
+        self.command_bar.addWidget(self.target_button)
+        self.command_bar.addWidget(self.query_type_button)
         self.command_bar.addWidget(self.extensions_button)
-        self.command_bar.addWidget(self.search_type_button)
-        self.command_bar.addSeparator()
-        self.command_bar.addAction(self.action_regex_builder)
 
         # Search bar
         self.search_widget = QWidget(self)
@@ -123,6 +124,10 @@ class CatalogueSearcherView(QDialog):
         self.right_layout.setSpacing(5)
         self.tree_view = TreeView(self)
         self.tree_view.doubleClicked.connect(self._on_tree_view_double_clicked)
+        self.tree_view.header().setSectionResizeMode(QHeaderView.ResizeMode.ResizeToContents)
+        self.tree_view.header().setStretchLastSection(False)
+        self.tree_view.setIndentation(20)
+        FluentStyleSheet.TREE_VIEW.apply(self.tree_view)
         self.right_layout.addWidget(self.tree_view)
 
         # Add widgets to main layout
@@ -135,6 +140,9 @@ class CatalogueSearcherView(QDialog):
 
         # Apply Fluent Design stylesheet
         FluentStyleSheet.DIALOG.apply(self)
+
+        # Set initial placeholder
+        self._update_search_bar_placeholder()
 
     def _on_tree_view_double_clicked(self, index: QModelIndex):
         item = self.tree_view.model().itemFromIndex(index)
@@ -183,32 +191,58 @@ class CatalogueSearcherView(QDialog):
         menu.addActions([self.action_ext_txt, self.action_ext_log, self.action_ext_ini, self.action_ext_json, self.action_ext_xml])
         return menu
 
-    def __create_search_type_menu(self):
+    def __create_target_menu(self):
         menu = CheckableMenu(parent=self)
-
         action_group = QActionGroup(self)
-        action_group.setExclusive(True)  # Enforce single selection
+        action_group.setExclusive(True)
 
-        self.action_type_text = Action("Testo", self, checkable=True)
-        self.action_type_regex = Action("Regex", self, checkable=True)
+        self.action_target_map = {}
+        target_names = {
+            SearchTarget.FILE_NAME: "Nome del file",
+            SearchTarget.FILE_CONTENT: "Contenuto del file"
+        }
+        for target in SearchTarget:
+            action = Action(target_names.get(target, target.name.replace("_", " ").title()), self, checkable=True)
+            action.setData(target)
+            action.triggered.connect(self._update_search_bar_placeholder)
+            self.action_target_map[target] = action
+            action_group.addAction(action)
+            menu.addAction(action)
 
-        self.action_type_text.setChecked(True)  # Default selection
-
-        self.action_type_text.triggered.connect(self._on_search_type_changed)
-        self.action_type_regex.triggered.connect(self._on_search_type_changed)
-
-        action_group.addAction(self.action_type_text)
-        action_group.addAction(self.action_type_regex)
-
-        menu.addActions([self.action_type_text, self.action_type_regex])
+        # Set default
+        self.action_target_map[SearchTarget.FILE_CONTENT].setChecked(True)
         return menu
 
-    def _on_search_type_changed(self):
-        """Updates the search bar's placeholder text based on the selected search type."""
-        if self.action_type_text.isChecked():
-            self.search_bar.setPlaceholderText("Inserisci il testo da cercare")
-        elif self.action_type_regex.isChecked():
-            self.search_bar.setPlaceholderText("Inserisci la regex da applicare alla ricerca")
+    def __create_query_type_menu(self):
+        menu = CheckableMenu(parent=self)
+        action_group = QActionGroup(self)
+        action_group.setExclusive(True)
+
+        self.action_query_type_map = {}
+        for query_type in QueryType:
+            action = Action(query_type.name.title(), self, checkable=True)
+            action.setData(query_type)
+            action.triggered.connect(self._update_search_bar_placeholder)
+            self.action_query_type_map[query_type] = action
+            action_group.addAction(action)
+            menu.addAction(action)
+
+        # Set default
+        self.action_query_type_map[QueryType.TEXT].setChecked(True)
+        return menu
+
+    def _update_search_bar_placeholder(self):
+        target = self.get_selected_search_target()
+        query_type = self.get_selected_query_type()
+
+        if target == SearchTarget.FILE_CONTENT and query_type == QueryType.TEXT:
+            self.search_bar.setPlaceholderText("Cerca il contenuto di un file")
+        elif target == SearchTarget.FILE_CONTENT and query_type == QueryType.REGEX:
+            self.search_bar.setPlaceholderText("Cerca il contenuto di un file usando una regex")
+        elif target == SearchTarget.FILE_NAME and query_type == QueryType.TEXT:
+            self.search_bar.setPlaceholderText("Cerca il nome di un file")
+        elif target == SearchTarget.FILE_NAME and query_type == QueryType.REGEX:
+            self.search_bar.setPlaceholderText("Cerca il nome di un file usando una regex")
 
     def get_selected_extensions(self) -> list[str]:
         extensions = []
@@ -224,20 +258,26 @@ class CatalogueSearcherView(QDialog):
             extensions.append(".xml")
         return extensions
 
-    def get_selected_search_type(self) -> str:
-        if self.action_type_text.isChecked():
-            return "Testo"
-        elif self.action_type_regex.isChecked():
-            return "Regex"
-        return "Testo"  # Default fallback
+    def get_selected_query_type(self) -> QueryType:
+        for query_type, action in self.action_query_type_map.items():
+            if action.isChecked():
+                return query_type
+        return QueryType.TEXT  # Default fallback
+
+    def get_selected_search_target(self) -> SearchTarget:
+        for target, action in self.action_target_map.items():
+            if action.isChecked():
+                return target
+        return SearchTarget.FILE_CONTENT  # Default fallback
 
     def set_operation_status(self, active: bool):
         """Sets the UI state based on whether a search operation is active."""
         is_enabled = not active
         self.search_bar.setEnabled(is_enabled)
+        self.results_table.setEnabled(is_enabled)
         self.extensions_button.setEnabled(is_enabled)
-        self.search_type_button.setEnabled(is_enabled)
-        self.action_regex_builder.setEnabled(is_enabled)
+        self.target_button.setEnabled(is_enabled)
+        self.query_type_button.setEnabled(is_enabled)
 
         if active:
             self.status_card.show()

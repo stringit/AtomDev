@@ -3,7 +3,7 @@ from time import sleep
 from PySide6.QtCore import QAbstractTableModel, Qt, QModelIndex, Signal, QObject
 from PySide6.QtGui import QStandardItemModel, QStandardItem
 
-from pylizlib.core.os.snap import SnapshotCatalogue, Snapshot, SnapshotSearchParams, SnapshotSearchType, SnapshotSearcher, \
+from pylizlib.core.os.snap import SnapshotCatalogue, Snapshot, SnapshotSearchParams, QueryType, SearchTarget, SnapshotSearcher, \
     SnapshotSearchResult
 from pylizlib.qt.handler.operation_core import Operation, Task
 from pylizlib.qt.handler.operation_domain import OperationInfo, OperationStatus
@@ -136,6 +136,7 @@ class SearchResultsTreeModel:
 
     def populate_from_results(self, results: list[SnapshotSearchResult]):
         self.clear()
+        self.model.setHorizontalHeaderLabels([f"Risultati ({len(results)})"])
 
         results_by_snapshot = {}
         for res in results:
@@ -214,7 +215,7 @@ class CatalogueSearcherModel(QObject):
             snapshots = self.catalogue.get_all()
         self.table_model.update_data(snapshots)
 
-    def search(self, text: str, search_type: str, extensions: list[str]):
+    def search(self, text: str, query_type: QueryType, search_target: SearchTarget, extensions: list[str]):
         self.table_model.reset_search_state()
         self.tree_model_manager.clear()
         self._current_message = "Avvio..."
@@ -224,7 +225,8 @@ class CatalogueSearcherModel(QObject):
 
         params = SnapshotSearchParams(
             query=text,
-            search_type=SnapshotSearchType.TEXT if search_type == "Text" else SnapshotSearchType.REGEX,
+            query_type=query_type,
+            search_target=search_target,
             extensions=extensions
         )
         operations = self.__get_runner_operations(params)

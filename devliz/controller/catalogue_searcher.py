@@ -54,14 +54,15 @@ class CatalogueSearcherController:
             return
 
         self.view.set_operation_status(True)
-        search_type = self.view.get_selected_search_type()
+        query_type = self.view.get_selected_query_type()
+        search_target = self.view.get_selected_search_target()
         extensions = self.view.get_selected_extensions()
 
         # Toggle button states
         self.view.action_start.setEnabled(False)
         self.view.action_stop.setEnabled(True)
 
-        self.model.search(search_text, search_type, extensions)
+        self.model.search(search_text, query_type, search_target, extensions)
 
     def _stop_search(self):
         """Stops the search in the model."""
