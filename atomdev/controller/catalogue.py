@@ -8,13 +8,13 @@ from pylizlib.qtfw.util.ui import UiUtils
 from qfluentwidgets import MessageBox
 from scipy.optimize import direct
 
-from devliz.application.app import app
-from devliz.controller.catalogue_searcher import CatalogueSearcherController
-from devliz.domain.data import DevlizSnapshotData
-from devliz.model.catalogue import CatalogueModel
-from devliz.model.dashboard import DashboardModel
-from devliz.view.catalogue import SnapshotCatalogueWidget
-from devliz.view.catalogue_imp_dialog import DialogConfig
+from atomdev.application.app import app
+from atomdev.controller.catalogue_searcher import CatalogueSearcherController
+from atomdev.domain.data import DevlizSnapshotData
+from atomdev.model.catalogue import CatalogueModel
+from atomdev.model.dashboard import DashboardModel
+from atomdev.view.catalogue import SnapshotCatalogueWidget
+from atomdev.view.catalogue_imp_dialog import DialogConfig
 
 
 class CatalogueController:

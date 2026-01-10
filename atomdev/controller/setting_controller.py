@@ -9,9 +9,9 @@ from pylizlib.qtfw.util.ui import UiUtils
 from pylizlib.qtfw.widgets.dialog.about import AboutMessageBox
 from qfluentwidgets import MessageBox
 
-from devliz.application.app import app_settings, AppSettings, PATH_BACKUPS, RESOURCE_ID_LOGO, app
-from devliz.model.dashboard import DashboardModel
-from devliz.view.setting import WidgetSettings
+from atomdev.application.app import app_settings, AppSettings, PATH_BACKUPS, RESOURCE_ID_LOGO, app
+from atomdev.model.dashboard import DashboardModel
+from atomdev.view.setting import WidgetSettings
 
 
 class SettingController:

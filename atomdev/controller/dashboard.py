@@ -4,12 +4,12 @@ from loguru import logger
 from pylizlib.qt.domain.view import UiWidgetMode
 from qfluentwidgets import FluentIcon, NavigationItemPosition
 
-from devliz.application.app import app_settings, AppSettings
-from devliz.controller.catalogue import CatalogueController
-from devliz.controller.setting_controller import SettingController
-from devliz.domain.data import DevlizData, DevlizSnapshotData
-from devliz.model.dashboard import DashboardModel
-from devliz.view.dashboard import DashboardView
+from atomdev.application.app import app_settings, AppSettings
+from atomdev.controller.catalogue import CatalogueController
+from atomdev.controller.setting_controller import SettingController
+from atomdev.domain.data import DevlizData, DevlizSnapshotData
+from atomdev.model.dashboard import DashboardModel
+from atomdev.view.dashboard import DashboardView
 
 
 class DashboardController:

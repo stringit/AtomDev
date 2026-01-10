@@ -1,4 +1,4 @@
-name = 'devliz'
+name = 'atomdev'
 version = '0.1.4'
 description = 'Add your description here'
 requires_python = '>=3.12'

@@ -8,10 +8,10 @@ from pylizlib.qt.handler.operation_domain import OperationInfo
 from pylizlib.qt.handler.operation_runner import OperationRunner, RunnerStatistics
 from PySide6.QtCore import QObject, Signal
 
-from devliz.application.app import app_settings, AppSettings, PATH_BACKUPS, snap_settings
-from devliz.domain.data import DevlizData
-from devliz.model.devliz_update import TaskGetMonitoredSoftware, TaskGetSnapshots
-from devliz.view.dashboard import DashboardView
+from atomdev.application.app import app_settings, AppSettings, PATH_BACKUPS, snap_settings
+from atomdev.domain.data import DevlizData
+from atomdev.model.devliz_update import TaskGetMonitoredSoftware, TaskGetSnapshots
+from atomdev.view.dashboard import DashboardView
 
 
 

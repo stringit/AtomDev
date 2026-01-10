@@ -4,9 +4,9 @@ from pylizlib.core.data.unit import get_normalized_gb_mb_str
 from pylizlib.qtfw.widgets.card import MasterListSettingCard
 from qfluentwidgets import PushSettingCard, FluentIcon, PushButton, SwitchSettingCard, OptionsSettingCard
 
-from devliz.application.app import app, app_settings, AppSettings
-from devliz.view.util.frame import DevlizQFrame
-from devliz.view.util.setting import SettingGroupManager
+from atomdev.application.app import app, app_settings, AppSettings
+from atomdev.view.util.frame import DevlizQFrame
+from atomdev.view.util.setting import SettingGroupManager
 
 
 class WidgetSettings(DevlizQFrame):

@@ -7,9 +7,9 @@ from pylizlib.core.os.snap import Snapshot, SnapshotSortKey
 from qfluentwidgets import SearchLineEdit, Action, FluentIcon, CommandBar, setFont, BodyLabel, RoundMenu, \
     TransparentDropDownPushButton, CheckableMenu, MenuIndicatorType, TableView
 
-from devliz.application.app import app_settings, AppSettings
-from devliz.model.catalogue import CatalogueModel
-from devliz.view.util.frame import DevlizQFrame
+from atomdev.application.app import app_settings, AppSettings
+from atomdev.model.catalogue import CatalogueModel
+from atomdev.view.util.frame import DevlizQFrame
 
 
 class SnapshotCatalogueUiBuilder:

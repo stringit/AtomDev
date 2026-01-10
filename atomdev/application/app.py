@@ -11,7 +11,7 @@ from pylizlib.qtfw.domain.setting import QtFwQConfigItem
 from pylizlib.qtfw.model.qconfig import TextListValidator, ExecutableValidator
 from qfluentwidgets import QConfig, ConfigItem, BoolValidator, qconfig, FolderValidator
 
-from devliz.project import version, name, authors
+from atomdev.project import version, name, authors
 
 # Application object
 app = PylizApp(name, version, name, authors[0][0])
@@ -31,8 +31,8 @@ DEFAULT_SETTING_STARRED_DIRS = []
 DEFAULT_SETTING_STARRED_FILES = []
 DEFAULT_SETTING_STARRED_EXES = []
 DEFAULT_SETTING_STARRED_SERVICES = []
-DEFAULT_SETTING_CONFIGURATION_TAGS = []
-DEFAULT_SETTING_SNAPSHOTS_CUSTOM_DATA = []
+DEFAULT_SETTING_CONFIGURATION_TAGS = ["JIRA", "IntLay", "WTC"]
+DEFAULT_SETTING_SNAPSHOTS_CUSTOM_DATA = ["Famiglia", "Macchina"]
 DEFAULT_SETTING_PATH_GIT_BASH = PATH_DEFAULT_GIT_BASH.__str__()
 DEFAULT_SETTING_CONFIG_BACKUP_BEFORE_INSTALL = True
 DEFAULT_SETTING_CONFIG_BACKUP_BEFORE_EDIT = False
@@ -68,12 +68,12 @@ class AppSettings(QConfig):
     backup_before_install = QtFwQConfigItem(True, SETTING_GROUP_CONFIGS, "Backup Before Install", DEFAULT_SETTING_CONFIG_BACKUP_BEFORE_INSTALL, BoolValidator())
     backup_before_edit = QtFwQConfigItem(True, SETTING_GROUP_CONFIGS, "Backup Before Edit", DEFAULT_SETTING_CONFIG_BACKUP_BEFORE_EDIT, BoolValidator())
     backup_before_delete = QtFwQConfigItem(True, SETTING_GROUP_CONFIGS, "Backup Before Delete", DEFAULT_SETTING_CONFIG_BACKUP_BEFORE_DELETE, BoolValidator())
-    snap_custom_data = QtFwQConfigItem(True, SETTING_GROUP_CONFIGS, "Snapshots custom data", DEFAULT_SETTING_SNAPSHOTS_CUSTOM_DATA, TextListValidator())
-    git_bash_path = QtFwQConfigItem(True, SETTING_GROUP_SCRIPTS, "Git Bash path", DEFAULT_SETTING_PATH_GIT_BASH, ExecutableValidator())
+    snap_custom_data = QtFwQConfigItem(False, SETTING_GROUP_CONFIGS, "Snapshots custom data", DEFAULT_SETTING_SNAPSHOTS_CUSTOM_DATA, TextListValidator())
+    git_bash_path = QtFwQConfigItem(False, SETTING_GROUP_SCRIPTS, "Git Bash path", DEFAULT_SETTING_PATH_GIT_BASH, ExecutableValidator())
     starred_dirs = QtFwQConfigItem(True, SETTING_GROUP_FAVORITES,"Cartelle preferite", DEFAULT_SETTING_STARRED_DIRS, TextListValidator())
-    starred_files = QtFwQConfigItem(True, SETTING_GROUP_FAVORITES,"File preferiti", DEFAULT_SETTING_STARRED_FILES, TextListValidator())
-    starred_exes = QtFwQConfigItem(True, SETTING_GROUP_FAVORITES, "Eseguibili Preferiti", DEFAULT_SETTING_STARRED_EXES, TextListValidator())
-    starred_services = QtFwQConfigItem(True, SETTING_GROUP_FAVORITES, "Servizi Preferiti", DEFAULT_SETTING_STARRED_SERVICES, TextListValidator())
+    starred_files = QtFwQConfigItem(False, SETTING_GROUP_FAVORITES,"File preferiti", DEFAULT_SETTING_STARRED_FILES, TextListValidator())
+    starred_exes = QtFwQConfigItem(False, SETTING_GROUP_FAVORITES, "Eseguibili Preferiti", DEFAULT_SETTING_STARRED_EXES, TextListValidator())
+    starred_services = QtFwQConfigItem(False, SETTING_GROUP_FAVORITES, "Servizi Preferiti", DEFAULT_SETTING_STARRED_SERVICES, TextListValidator())
     debug_test_mode = QtFwQConfigItem(False, SETTING_GROUP_APP, "DebugTestMode", False, BoolValidator())
 
 

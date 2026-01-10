@@ -3,8 +3,8 @@ import sys
 from PySide6.QtWidgets import QApplication
 
 
-from devliz.controller.dashboard import DashboardController
-from devliz.view.splash import SplashWindow
+from atomdev.controller.dashboard import DashboardController
+from atomdev.view.splash import SplashWindow
 
 
 

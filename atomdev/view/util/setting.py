@@ -2,7 +2,7 @@ from PySide6.QtWidgets import QSizePolicy, QSpacerItem
 from pylizlib.qtfw.domain.setting import QtFwQConfigItem
 from qfluentwidgets import SettingCardGroup, ConfigItem
 
-from devliz.application.app import AppSettings, app_settings
+from atomdev.application.app import AppSettings, app_settings
 
 
 class SettingGroupManager:

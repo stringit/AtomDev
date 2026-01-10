@@ -5,7 +5,7 @@ from pylizlib.core.os.snap import Snapshot
 from pylizlib.qtfw.widgets.input import MultiSelectionComboBox
 from qfluentwidgets import BodyLabel, LineEdit, ComboBox
 
-from devliz.application.app import snap_settings
+from atomdev.application.app import snap_settings
 
 
 class TabDetails(QWidget):

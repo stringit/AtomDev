@@ -3,9 +3,9 @@ from PySide6.QtGui import QIcon
 from qfluentwidgets import SplashScreen
 from qfluentwidgets.components.widgets.frameless_window import FramelessWindow
 
-from devliz.application.app import app, RESOURCE_ID_LOGO
+from atomdev.application.app import app, RESOURCE_ID_LOGO
 
-from devliz.application.resources import resources_rc
+from atomdev.application.resources import resources_rc
 
 class SplashWindow(FramelessWindow):
 

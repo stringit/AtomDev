@@ -7,7 +7,7 @@ from pylizlib.qt.handler.operation_core import Task
 from pylizlib.qtfw.domain.sw import SoftwareData
 from qfluentwidgets import FluentIcon
 
-from devliz.application.app import app_settings, AppSettings
+from atomdev.application.app import app_settings, AppSettings
 
 
 class TaskGetMonitoredSoftware(Task):

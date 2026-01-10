@@ -7,9 +7,9 @@ from pylizlib.qt.domain.view import UiWidgetMode
 from qfluentwidgets import FluentWindow, Theme, setTheme, setThemeColor, isDarkTheme, FluentIcon, NavigationItemPosition
 from qframelesswindow.utils import getSystemAccentColor
 
-from devliz.application.app import app, RESOURCE_ID_LOGO
+from atomdev.application.app import app, RESOURCE_ID_LOGO
 
-from devliz.application.resources import resources_rc
+from atomdev.application.resources import resources_rc
 
 class DashboardView(FluentWindow):
 

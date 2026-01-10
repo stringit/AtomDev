@@ -4,8 +4,8 @@ from pylizlib.core.os.snap import Snapshot
 from pylizlib.qtfw.util.ui import UiUtils
 from qfluentwidgets import FluentStyleSheet, PushButton, PrimaryPushButton
 
-from devliz.domain.data import DevlizData
-from devliz.view.catalogue_imp_tabs import DialogConfigTabs
+from atomdev.domain.data import DevlizData
+from atomdev.view.catalogue_imp_tabs import DialogConfigTabs
 
 
 class DialogConfig(QDialog):

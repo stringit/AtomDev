@@ -8,10 +8,10 @@ from pylizlib.core.os.utils import get_system_username
 from pylizlib.qtfw.util.ui import UiUtils
 from qfluentwidgets import SegmentedWidget
 
-from devliz.application.app import app_settings, AppSettings
-from devliz.domain.data import DevlizData
-from devliz.view.catalogue_imp_tab_details import TabDetails
-from devliz.view.catalogue_imp_tab_directories import TabDirectories
+from atomdev.application.app import app_settings, AppSettings
+from atomdev.domain.data import DevlizData
+from atomdev.view.catalogue_imp_tab_details import TabDetails
+from atomdev.view.catalogue_imp_tab_directories import TabDirectories
 
 
 class DialogConfigTabs(QWidget):

@@ -1,8 +1,8 @@
 from PySide6.QtCore import QAbstractTableModel, QModelIndex, Qt
 from pylizlib.core.os.snap import Snapshot, SnapshotSortKey, SnapshotUtils
 
-from devliz.application.app import app_settings, AppSettings
-from devliz.domain.data import DevlizSnapshotData
+from atomdev.application.app import app_settings, AppSettings
+from atomdev.domain.data import DevlizSnapshotData
 
 
 class SnapshotTableModel(QAbstractTableModel):

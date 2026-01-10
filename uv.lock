@@ -12,6 +12,46 @@ wheels = [
 ]
 
 [[package]]
+name = "atomdev"
+version = "0.1.4"
+source = { editable = "." }
+dependencies = [
+    { name = "loguru" },
+    { name = "loguru-logging-intercept" },
+    { name = "pylizlib" },
+    { name = "pyside6" },
+    { name = "pyside6-fluent-widgets", extra = ["full"] },
+]
+
+[package.optional-dependencies]
+qtfw = [
+    { name = "pylizlib" },
+]
+
+[package.dev-dependencies]
+dev = [
+    { name = "pyinstaller" },
+    { name = "ruff" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "loguru", specifier = ">=0.7.3" },
+    { name = "loguru-logging-intercept", specifier = ">=0.1.5" },
+    { name = "pylizlib", specifier = ">=0.3.20" },
+    { name = "pylizlib", marker = "extra == 'qtfw'", specifier = ">=0.3.21" },
+    { name = "pyside6", specifier = ">=6.10.0" },
+    { name = "pyside6-fluent-widgets", extras = ["full"], specifier = ">=1.9.1" },
+]
+provides-extras = ["qtfw"]
+
+[package.metadata.requires-dev]
+dev = [
+    { name = "pyinstaller", specifier = ">=6.16.0" },
+    { name = "ruff", specifier = ">=0.14.1" },
+]
+
+[[package]]
 name = "certifi"
 version = "2025.11.12"
 source = { registry = "https://pypi.org/simple" }
@@ -117,46 +157,6 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/45/77/7575be73bf12dee231d0c6e60ce7fb7a7be4fcd58823374fc59a6e48262e/darkdetect-0.8.0.tar.gz", hash = "sha256:b5428e1170263eb5dea44c25dc3895edd75e6f52300986353cd63533fe7df8b1", size = 7681, upload-time = "2022-12-16T14:14:42.113Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/f2/f2/728f041460f1b9739b85ee23b45fa5a505962ea11fd85bdbe2a02b021373/darkdetect-0.8.0-py3-none-any.whl", hash = "sha256:a7509ccf517eaad92b31c214f593dbcf138ea8a43b2935406bbd565e15527a85", size = 8955, upload-time = "2022-12-16T14:14:40.92Z" },
-]
-
-[[package]]
-name = "devliz"
-version = "0.1.4"
-source = { editable = "." }
-dependencies = [
-    { name = "loguru" },
-    { name = "loguru-logging-intercept" },
-    { name = "pylizlib" },
-    { name = "pyside6" },
-    { name = "pyside6-fluent-widgets", extra = ["full"] },
-]
-
-[package.optional-dependencies]
-qtfw = [
-    { name = "pylizlib" },
-]
-
-[package.dev-dependencies]
-dev = [
-    { name = "pyinstaller" },
-    { name = "ruff" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "loguru", specifier = ">=0.7.3" },
-    { name = "loguru-logging-intercept", specifier = ">=0.1.5" },
-    { name = "pylizlib", specifier = ">=0.3.20" },
-    { name = "pylizlib", marker = "extra == 'qtfw'", specifier = ">=0.3.21" },
-    { name = "pyside6", specifier = ">=6.10.0" },
-    { name = "pyside6-fluent-widgets", extras = ["full"], specifier = ">=1.9.1" },
-]
-provides-extras = ["qtfw"]
-
-[package.metadata.requires-dev]
-dev = [
-    { name = "pyinstaller", specifier = ">=6.16.0" },
-    { name = "ruff", specifier = ">=0.14.1" },
 ]
 
 [[package]]

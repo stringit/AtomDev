@@ -1,6 +1,6 @@
 # == PROJECT VARIABLES ==
-APP_NAME := Devliz
-PYTHON_MAIN_PACKAGE = devliz
+APP_NAME := Atomdev
+PYTHON_MAIN_PACKAGE = atomdev
 FILE_MAIN_CLI := $(PYTHON_MAIN_PACKAGE)/core/cli.py
 FILE_MAIN := $(PYTHON_MAIN_PACKAGE)/main.py
 QT_QRC_FILE := resources/resources.qrc

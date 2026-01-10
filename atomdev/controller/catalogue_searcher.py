@@ -4,8 +4,8 @@ from qfluentwidgets import MessageBox
 
 from pylizlib.core.os.snap import SnapshotCatalogue, Snapshot
 
-from devliz.model.catalogue_searcher import CatalogueSearcherModel
-from devliz.view.catalogue_searcher import CatalogueSearcherView
+from atomdev.model.catalogue_searcher import CatalogueSearcherModel
+from atomdev.view.catalogue_searcher import CatalogueSearcherView
 
 
 class CatalogueSearcherController:

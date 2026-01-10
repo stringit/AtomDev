@@ -5,13 +5,13 @@
 
 [Setup]
 AppId={{0f0058d8-3cc1-4707-b86a-ed74d880c26a}}
-AppMutex=devlizmutex
-AppName=Devliz
+AppMutex=atomdevmutex
+AppName=AtomDev
 AppVersion={#MyAppVersion}
-DefaultDirName={commonpf}\Devliz
-DefaultGroupName=Devliz
+DefaultDirName={commonpf}\AtomDev
+DefaultGroupName=AtomDev
 OutputDir=Output
-OutputBaseFilename=devliz-setup
+OutputBaseFilename=atomdev-setup
 Compression=lzma
 SolidCompression=yes
 DisableProgramGroupPage=yes
@@ -21,10 +21,10 @@ SetupIconFile=resources\logo2.ico
 Name: "italian"; MessagesFile: "compiler:Languages\Italian.isl"
 
 [Files]
-Source: "dist\devliz\*"; DestDir: "{app}"; Flags: recursesubdirs createallsubdirs
+Source: "dist\atomdev\*"; DestDir: "{app}"; Flags: recursesubdirs createallsubdirs
 
 [Icons]
-Name: "{group}\Devliz"; Filename: "{app}\devliz.exe"; IconFilename: "{app}\devliz.exe"
+Name: "{group}\AtomDev"; Filename: "{app}\atomdev.exe"; IconFilename: "{app}\atomdev.exe"
 
 [Run]
-Filename: "{app}\devliz.exe"; Description: "Avvia Devliz"; Flags: nowait postinstall skipifsilent
+Filename: "{app}\atomdev.exe"; Description: "Avvia AtomDev"; Flags: nowait postinstall skipifsilent
