@@ -77,7 +77,7 @@ gen-project-py:
 	pyliz gen-project-py $(FILE_PROJECT_TOML) $(FILE_PROJECT_PY_GENERATED)
 
 gen-qt-res-py:
-	$(QT_COMMAND_GEN_RES) $(QT_QRC_FILE) -o $(QT_RESOURCE_PY); \
+	$(QT_COMMAND_GEN_RES) $(QT_QRC_FILE) -o $(QT_RESOURCE_PY) \
 
 installer:
 	ISCC.exe $(INNO_SETUP_FILE)
