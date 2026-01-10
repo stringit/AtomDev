@@ -121,7 +121,7 @@ wheels = [
 
 [[package]]
 name = "devliz"
-version = "0.1.3"
+version = "0.1.4"
 source = { editable = "." }
 dependencies = [
     { name = "loguru" },

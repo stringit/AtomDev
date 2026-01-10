@@ -1,6 +1,6 @@
 ; Script di esempio Inno Setup per l'installer PySide6
 
-#define MyAppVersion "0.1.3"
+#define MyAppVersion "0.1.4"
 
 
 [Setup]
