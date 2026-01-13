@@ -4,7 +4,7 @@
 
 
 [Setup]
-AppId={{0f0058d8-3cc1-4707-b86a-ed74d880c26a}}
+AppId={{34B812EA-03AD-4748-832C-DFA0FB7830D4}}
 AppMutex=atomdevmutex
 AppName=AtomDev
 AppVersion={#MyAppVersion}
