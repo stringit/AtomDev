@@ -7,7 +7,7 @@
 #    $$ | \_/ $$ |$$ |  $$ |$$ | \$$\ $$$$$$$$\ $$ |      $$$$$$\ $$$$$$$$\ $$$$$$$$\
 #    \__|     \__|\__|  \__|\__|  \__|\________|\__|      \______|\________|\________|
 #
-#                                   VERSION 1.0.1
+#                                   VERSION 1.1.2
 
 include project.mk
 
@@ -58,6 +58,7 @@ clean-docs:
 clean-generated:
 	@echo "CLeaning generated files..."
 	- rm -f $(FILE_PROJECT_PY_GENERATED)
+	- rm -f Output
 
 # Aggregate clean command
 clean: clean-build clean-cache clean-generated
@@ -74,10 +75,10 @@ clean: clean-build clean-cache clean-generated
 #      \_____|______|_| \_|______|_|  \_\/_/    \_\_|  |______|
 
 gen-project-py:
-	pyliz gen-project-py $(FILE_PROJECT_TOML) $(FILE_PROJECT_PY_GENERATED)
+	uv run pyliz gen-project-py $(FILE_PROJECT_TOML) $(FILE_PROJECT_PY_GENERATED)
 
 gen-qt-res-py:
-	$(QT_COMMAND_GEN_RES) $(QT_QRC_FILE) -o $(QT_RESOURCE_PY) \
+	$(QT_COMMAND_GEN_RES) $(QT_QRC_FILE) -o $(QT_RESOURCE_PY); \
 
 installer:
 	ISCC.exe $(INNO_SETUP_FILE)
@@ -86,7 +87,11 @@ build-uv:
 	uv build
 
 build-exe:
+ifeq ($(shell uname), Darwin)
+	uv run pyinstaller --windowed --icon=$(FILE_MAIN_LOGO_ICNS) --name=$(APP_NAME) $(FILE_MAIN)
+else
 	uv run pyinstaller --windowed --icon=$(FILE_MAIN_LOGO_ICO) --name=$(APP_NAME) $(FILE_MAIN)
+endif
 
 docs-gen:
 	pdoc -o docs -d markdown $(PYTHON_MAIN_PACKAGE)
@@ -108,9 +113,7 @@ build-installer: build-app installer
 #
 #
 
-upgrade-patch:
-	uv version --bump patch
-	pyliz gen-project-py $(FILE_PROJECT_TOML) $(FILE_PROJECT_PY_GENERATED)
+define upgrade_version_impl
 	@VERSION=$$(uv version --short); \
 	if [ -f $(INNO_SETUP_FILE) ]; then \
 		echo "Inno setup script found. upgrading version to $$VERSION..."; \
@@ -118,9 +121,28 @@ upgrade-patch:
 	fi; \
 	git commit -am "bump: Bump version to $$VERSION"; \
 	git push
+endef
 
+upgrade-patch:
+	uv version --bump patch
+	pyliz gen-project-py $(FILE_PROJECT_TOML) $(FILE_PROJECT_PY_GENERATED)
+	$(upgrade_version_impl)
 
-upgrade-patch-push-tag: upgrade-patch
+upgrade-minor:
+	uv version --bump minor
+	pyliz gen-project-py $(FILE_PROJECT_TOML) $(FILE_PROJECT_PY_GENERATED)
+	$(upgrade_version_impl)
+
+upgrade-major:
+	uv version --bump major
+	pyliz gen-project-py $(FILE_PROJECT_TOML) $(FILE_PROJECT_PY_GENERATED)
+	$(upgrade_version_impl)
+
+create-version-tag:
 	git pull
 	git tag $$(uv version --short)
 	git push origin $$(uv version --short)
+
+upgrade-patch-push-tag: upgrade-patch create-version-tag
+upgrade-minor-push-tag: upgrade-minor create-version-tag
+upgrade-major-push-tag: upgrade-major create-version-tag
